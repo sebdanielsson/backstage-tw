@@ -28,6 +28,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import { MyGroupsSidebarItem } from '@backstage/plugin-org';
 import GroupIcon from '@material-ui/icons/People';
 import { NotificationsSidebarItem } from '@backstage/plugin-notifications';
+import { Button } from '@/components/ui/button';
 
 const useSidebarLogoStyles = makeStyles({
   root: {
@@ -61,6 +62,9 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
   <SidebarPage>
     <Sidebar>
       <p className="text-green-400">Hello World</p>
+      <Button variant="outline" size="sm">
+        Hello World
+      </Button>
       <SidebarLogo />
       <SidebarGroup label="Search" icon={<SearchIcon />} to="/search">
         <SidebarSearchModal />
