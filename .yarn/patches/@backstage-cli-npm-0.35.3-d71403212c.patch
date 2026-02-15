@@ -1,0 +1,17 @@
+diff --git a/dist/modules/build/lib/bundler/transforms.cjs.js b/dist/modules/build/lib/bundler/transforms.cjs.js
+index fa416114711f31947c78b0e689650e9f1c986c00..ea0cbd155a2bf09fdd74a146a944c5a69e12e334 100644
+--- a/dist/modules/build/lib/bundler/transforms.cjs.js
++++ b/dist/modules/build/lib/bundler/transforms.cjs.js
+@@ -123,6 +123,12 @@ const transforms = (options) => {
+           options: {
+             sourceMap: true
+           }
++        },
++        {
++          loader: require.resolve("postcss-loader"),
++          options: {
++            sourceMap: true
++          }
+         }
+       ]
+     }
