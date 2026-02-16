@@ -121,3 +121,12 @@
     @apply bg-background text-foreground;
   }
 }
+
+/*
+ * Hide Backstage's built-in page headers (rendered by plugin pages like
+ * CatalogIndexPage, SearchPage, etc.) since we have our own shadcn header bar.
+ * Target only Backstage headers, not our own (which has data-shadcn-header).
+ */
+header:not([data-shadcn-header]) {
+  display: none !important;
+}

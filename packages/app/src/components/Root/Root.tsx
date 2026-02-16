@@ -1,101 +1,69 @@
 import { PropsWithChildren } from 'react';
-import { makeStyles } from '@material-ui/core';
-import HomeIcon from '@material-ui/icons/Home';
-import ExtensionIcon from '@material-ui/icons/Extension';
-import LibraryBooks from '@material-ui/icons/LibraryBooks';
-import CreateComponentIcon from '@material-ui/icons/AddCircleOutline';
-import LogoFull from './LogoFull';
-import LogoIcon from './LogoIcon';
+import { useLocation } from 'react-router-dom';
+import { AppSidebar } from '../app-sidebar';
 import {
-  Settings as SidebarSettings,
-  UserSettingsSignInAvatar,
-} from '@backstage/plugin-user-settings';
-import { SidebarSearchModal } from '@backstage/plugin-search';
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from '../ui/sidebar';
+import { Separator } from '../ui/separator';
 import {
-  Sidebar,
-  sidebarConfig,
-  SidebarDivider,
-  SidebarGroup,
-  SidebarItem,
-  SidebarPage,
-  SidebarScrollWrapper,
-  SidebarSpace,
-  useSidebarOpenState,
-  Link,
-} from '@backstage/core-components';
-import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import { MyGroupsSidebarItem } from '@backstage/plugin-org';
-import GroupIcon from '@material-ui/icons/People';
-import { NotificationsSidebarItem } from '@backstage/plugin-notifications';
-import { Button } from '../ui/button';
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+} from '../ui/breadcrumb';
 
-const useSidebarLogoStyles = makeStyles({
-  root: {
-    width: sidebarConfig.drawerWidthClosed,
-    height: 3 * sidebarConfig.logoHeight,
-    display: 'flex',
-    flexFlow: 'row nowrap',
-    alignItems: 'center',
-    marginBottom: -14,
-  },
-  link: {
-    width: sidebarConfig.drawerWidthClosed,
-    marginLeft: 24,
-  },
-});
-
-const SidebarLogo = () => {
-  const classes = useSidebarLogoStyles();
-  const { isOpen } = useSidebarOpenState();
-
-  return (
-    <div className={classes.root}>
-      <Link to="/" underline="none" className={classes.link} aria-label="Home">
-        {isOpen ? <LogoFull /> : <LogoIcon />}
-      </Link>
-    </div>
-  );
+const routeLabels: Record<string, string> = {
+  '/catalog': 'Home',
+  '/api-docs': 'APIs',
+  '/docs': 'Docs',
+  '/create': 'Create',
+  '/search': 'Search',
+  '/settings': 'Settings',
+  '/notifications': 'Notifications',
+  '/catalog-import': 'Import',
+  '/catalog-graph': 'Graph',
 };
 
-export const Root = ({ children }: PropsWithChildren<{}>) => (
-  <SidebarPage>
-    <Sidebar>
-      <SidebarLogo />
-      <SidebarGroup label="Search" icon={<SearchIcon />} to="/search">
-        <SidebarSearchModal />
-      </SidebarGroup>
-      <SidebarDivider />
-      <SidebarGroup label="Menu" icon={<MenuIcon />}>
-        {/* Global nav, not org-specific */}
-        <SidebarItem icon={HomeIcon} to="catalog" text="Home" />
-        <MyGroupsSidebarItem
-          singularTitle="My Group"
-          pluralTitle="My Groups"
-          icon={GroupIcon}
-        />
-        <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" />
-        <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
-        <SidebarItem icon={CreateComponentIcon} to="create" text="Create..." />
-        {/* End global nav */}
-        <SidebarDivider />
-        <SidebarScrollWrapper>
-          {/* Items in this group will be scrollable if they run out of space */}
-        </SidebarScrollWrapper>
-      </SidebarGroup>
-      <SidebarSpace />
-      <SidebarDivider />
-      <NotificationsSidebarItem />
-      <SidebarDivider />
-      <SidebarDivider />
-      <SidebarGroup
-        label="Settings"
-        icon={<UserSettingsSignInAvatar />}
-        to="/settings"
-      >
-        <SidebarSettings />
-      </SidebarGroup>
-    </Sidebar>
-    {children}
-  </SidebarPage>
-);
+function getPageLabel(pathname: string): string {
+  // Check exact matches first
+  if (routeLabels[pathname]) return routeLabels[pathname];
+  // Check prefix matches (e.g. /catalog/default/component/foo)
+  for (const [route, label] of Object.entries(routeLabels)) {
+    if (pathname.startsWith(route)) return label;
+  }
+  return 'Backstage';
+}
+
+export const Root = ({ children }: PropsWithChildren<{}>) => {
+  const location = useLocation();
+  const pageLabel = getPageLabel(location.pathname);
+
+  return (
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        <header data-shadcn-header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+          <div className="flex items-center gap-2 px-4">
+            <SidebarTrigger className="-ml-1" />
+            <Separator
+              orientation="vertical"
+              className="mr-2 data-[orientation=vertical]:h-4"
+            />
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbPage>{pageLabel}</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          </div>
+        </header>
+        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+          {children}
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
+  );
+};
