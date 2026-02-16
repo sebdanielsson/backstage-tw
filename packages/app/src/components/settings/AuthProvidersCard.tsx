@@ -10,7 +10,11 @@ import {
   atlassianAuthApiRef,
   bitbucketServerAuthApiRef,
 } from '@backstage/core-plugin-api';
-import type { ApiRef, ProfileInfoApi, SessionApi } from '@backstage/core-plugin-api';
+import type {
+  ApiRef,
+  ProfileInfoApi,
+  SessionApi,
+} from '@backstage/core-plugin-api';
 import { useApi as useApiSafe } from '@backstage/core-plugin-api';
 import { useObservable, useAsync } from 'react-use';
 import { LogIn, LogOut, ShieldCheck } from 'lucide-react';
@@ -104,10 +108,7 @@ function ProviderRow({
   }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const sessionState = useObservable(
-    api.sessionState$(),
-    undefined,
-  );
+  const sessionState = useObservable(api.sessionState$(), undefined);
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { value: profile } = useAsync(async () => {
@@ -157,19 +158,31 @@ function ProviderRow({
           </div>
           <p className="text-xs text-muted-foreground">
             {isSignedIn && profile?.displayName
-              ? `${profile.displayName}${profile.email ? ` · ${profile.email}` : ''}`
+              ? `${profile.displayName}${
+                  profile.email ? ` · ${profile.email}` : ''
+                }`
               : description}
           </p>
         </div>
       </div>
       <div>
         {isSignedIn ? (
-          <Button variant="outline" size="sm" onClick={handleSignOut} className="gap-1.5">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleSignOut}
+            className="gap-1.5"
+          >
             <LogOut className="size-3.5" />
             Sign out
           </Button>
         ) : (
-          <Button variant="outline" size="sm" onClick={handleSignIn} className="gap-1.5">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleSignIn}
+            className="gap-1.5"
+          >
             <LogIn className="size-3.5" />
             Sign in
           </Button>

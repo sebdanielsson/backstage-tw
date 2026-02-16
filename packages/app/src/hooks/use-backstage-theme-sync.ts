@@ -30,7 +30,7 @@ export function useBackstageThemeSync() {
     syncDarkClass();
 
     // Watch for attribute changes on body
-    const observer = new MutationObserver((mutations) => {
+    const observer = new MutationObserver(mutations => {
       for (const mutation of mutations) {
         if (
           mutation.type === 'attributes' &&

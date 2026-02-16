@@ -1,14 +1,12 @@
-import {
-  Settings,
-} from "lucide-react"
-import { Link } from "react-router-dom"
+import { Settings } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 import {
   SidebarGroup,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "./ui/sidebar"
+} from './ui/sidebar';
 
 export function NavUser() {
   return (
@@ -24,5 +22,5 @@ export function NavUser() {
         </SidebarMenuItem>
       </SidebarMenu>
     </SidebarGroup>
-  )
+  );
 }

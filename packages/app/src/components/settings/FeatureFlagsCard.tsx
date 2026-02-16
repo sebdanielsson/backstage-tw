@@ -1,5 +1,9 @@
 import React from 'react';
-import { useApi, featureFlagsApiRef, FeatureFlagState } from '@backstage/core-plugin-api';
+import {
+  useApi,
+  featureFlagsApiRef,
+  FeatureFlagState,
+} from '@backstage/core-plugin-api';
 import { Search, Flag } from 'lucide-react';
 import {
   Card,

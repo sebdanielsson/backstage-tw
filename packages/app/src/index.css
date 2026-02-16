@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -138,18 +138,18 @@ header:not([data-shadcn-header]) {
  * ============================================================ */
 
 /* --- Page content area --- */
-[class*="BackstageContent-root"] {
+[class*='BackstageContent-root'] {
   padding: 0 !important;
   background-color: transparent !important;
 }
 
 /* --- Page wrapper --- */
-[class*="BackstagePage-root"] {
+[class*='BackstagePage-root'] {
   background-color: transparent !important;
 }
 
 /* --- Backstage HeaderTabs (Settings page tab bar, etc.) --- */
-[class*="BackstageHeaderTabs-tabsWrapper"] {
+[class*='BackstageHeaderTabs-tabsWrapper'] {
   background-color: var(--muted) !important;
   border-radius: var(--radius) !important;
   padding: 3px !important;
@@ -158,7 +158,7 @@ header:not([data-shadcn-header]) {
   border-bottom: none !important;
 }
 
-[class*="BackstageHeaderTabs-tabsWrapper"] .MuiTab-root {
+[class*='BackstageHeaderTabs-tabsWrapper'] .MuiTab-root {
   min-height: 28px !important;
   border-radius: calc(var(--radius) - 2px) !important;
   padding: 4px 12px !important;
@@ -169,22 +169,22 @@ header:not([data-shadcn-header]) {
   transition: all 0.15s ease !important;
 }
 
-[class*="BackstageHeaderTabs-tabsWrapper"] .MuiTab-root:hover {
+[class*='BackstageHeaderTabs-tabsWrapper'] .MuiTab-root:hover {
   color: var(--foreground) !important;
 }
 
-[class*="BackstageHeaderTabs-tabsWrapper"] .MuiTab-root.Mui-selected {
+[class*='BackstageHeaderTabs-tabsWrapper'] .MuiTab-root.Mui-selected {
   color: var(--foreground) !important;
   background-color: var(--background) !important;
   box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
 }
 
-[class*="BackstageHeaderTabs-tabsWrapper"] .MuiTabs-indicator {
+[class*='BackstageHeaderTabs-tabsWrapper'] .MuiTabs-indicator {
   display: none !important;
 }
 
 /* --- InfoCard (used across Settings, Catalog, etc.) --- */
-[class*="BackstageInfoCard"] {
+[class*='BackstageInfoCard'] {
   background-color: var(--card) !important;
   color: var(--card-foreground) !important;
   border: 1px solid var(--border) !important;
@@ -192,7 +192,7 @@ header:not([data-shadcn-header]) {
   box-shadow: none !important;
 }
 
-[class*="BackstageInfoCard"] [class*="MuiCardHeader-title"] {
+[class*='BackstageInfoCard'] [class*='MuiCardHeader-title'] {
   font-size: 0.875rem !important;
   font-weight: 600 !important;
 }
@@ -233,11 +233,11 @@ header:not([data-shadcn-header]) {
 }
 
 /* --- Backstage Select component --- */
-[class*="BackstageSelect"] .MuiInput-root {
+[class*='BackstageSelect'] .MuiInput-root {
   font-size: 0.875rem !important;
 }
 
-[class*="BackstageSelect"] .MuiInput-underline:before {
+[class*='BackstageSelect'] .MuiInput-underline:before {
   border-bottom-color: var(--border) !important;
 }
 
@@ -250,6 +250,6 @@ header:not([data-shadcn-header]) {
 }
 
 /* --- Backstage SupportButton --- */
-[class*="BackstageSupportButton"] {
+[class*='BackstageSupportButton'] {
   border-radius: calc(var(--radius) - 2px) !important;
 }

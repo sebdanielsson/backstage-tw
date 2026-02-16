@@ -1,5 +1,5 @@
-import { type LucideIcon } from "lucide-react"
-import { Link, useLocation } from "react-router-dom"
+import { type LucideIcon } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 
 import {
   SidebarGroup,
@@ -7,24 +7,24 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "./ui/sidebar"
+} from './ui/sidebar';
 
 export function NavMain({
   items,
 }: {
   items: {
-    title: string
-    url: string
-    icon: LucideIcon
-  }[]
+    title: string;
+    url: string;
+    icon: LucideIcon;
+  }[];
 }) {
-  const location = useLocation()
+  const location = useLocation();
 
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Platform</SidebarGroupLabel>
       <SidebarMenu>
-        {items.map((item) => (
+        {items.map(item => (
           <SidebarMenuItem key={item.title}>
             <SidebarMenuButton
               asChild
@@ -40,5 +40,5 @@ export function NavMain({
         ))}
       </SidebarMenu>
     </SidebarGroup>
-  )
+  );
 }

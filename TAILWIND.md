@@ -19,7 +19,7 @@ Create `./packages/app/postcss.config.mjs`:
 ```javascript
 export default {
   plugins: {
-    "@tailwindcss/postcss": {},
+    '@tailwindcss/postcss': {},
   },
 };
 ```
@@ -29,7 +29,7 @@ export default {
 Create `./packages/app/src/index.css`:
 
 ```css
-@import "tailwindcss";
+@import 'tailwindcss';
 ```
 
 ### 4. Import the CSS in your app entry point
@@ -151,9 +151,9 @@ yarn workspace app add class-variance-authority clsx tailwind-merge lucide-react
 ```diff
 @import "tailwindcss";
 +@import "tw-animate-css";
- 
+
 +@custom-variant dark (&:is(.dark *));
-+ 
++
 +:root {
 +  --background: oklch(1 0 0);
 +  --foreground: oklch(0.145 0 0);
@@ -189,7 +189,7 @@ yarn workspace app add class-variance-authority clsx tailwind-merge lucide-react
 +  --sidebar-border: oklch(0.922 0 0);
 +  --sidebar-ring: oklch(0.708 0 0);
 +}
-+ 
++
 +.dark {
 +  --background: oklch(0.145 0 0);
 +  --foreground: oklch(0.985 0 0);
@@ -224,7 +224,7 @@ yarn workspace app add class-variance-authority clsx tailwind-merge lucide-react
 +  --sidebar-border: oklch(0.269 0 0);
 +  --sidebar-ring: oklch(0.439 0 0);
 +}
-+ 
++
 +@theme inline {
 +  --color-background: var(--background);
 +  --color-foreground: var(--foreground);
@@ -263,7 +263,7 @@ yarn workspace app add class-variance-authority clsx tailwind-merge lucide-react
 +  --color-sidebar-border: var(--sidebar-border);
 +  --color-sidebar-ring: var(--sidebar-ring);
 +}
-+ 
++
 +@layer base {
 +  * {
 +    @apply border-border outline-ring/50;
@@ -277,11 +277,11 @@ yarn workspace app add class-variance-authority clsx tailwind-merge lucide-react
 ### 4. Add `packages/app/src/lib/utils.ts`
 
 ```ts
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 ```
 

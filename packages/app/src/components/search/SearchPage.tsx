@@ -11,10 +11,7 @@ import {
   ChevronRight,
   X,
 } from 'lucide-react';
-import {
-  Card,
-  CardContent,
-} from '../ui/card';
+import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Separator } from '../ui/separator';
@@ -139,18 +136,15 @@ function ResultItem({
     type === 'software-catalog'
       ? 'Catalog'
       : type === 'techdocs'
-        ? 'Docs'
-        : type;
+      ? 'Docs'
+      : type;
 
   const kind = document.kind as string | undefined;
   const lifecycle = document.lifecycle as string | undefined;
   const owner = document.owner as string | undefined;
 
   return (
-    <button
-      onClick={handleClick}
-      className="w-full text-left group"
-    >
+    <button onClick={handleClick} className="w-full text-left group">
       <Card className="transition-colors group-hover:bg-accent/50 border-border">
         <CardContent className="py-4">
           <div className="flex items-start justify-between gap-4">
@@ -282,7 +276,15 @@ const CustomSearchPage = () => {
           <FilterSelect
             label="Kind"
             name="kind"
-            options={['Component', 'Template', 'API', 'System', 'Domain', 'Group', 'User']}
+            options={[
+              'Component',
+              'Template',
+              'API',
+              'System',
+              'Domain',
+              'Group',
+              'User',
+            ]}
             value={filters.kind as string | undefined}
             onChange={handleFilterChange}
           />
@@ -375,7 +377,10 @@ const CustomSearchPage = () => {
             </p>
             <div className="space-y-2">
               {results.map((r, i) => (
-                <ResultItem key={`${r.document.location}-${i}`} result={r as any} />
+                <ResultItem
+                  key={`${r.document.location}-${i}`}
+                  result={r as any}
+                />
               ))}
             </div>
 

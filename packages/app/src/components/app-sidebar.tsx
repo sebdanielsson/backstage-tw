@@ -1,18 +1,11 @@
-import * as React from "react"
-import {
-  Bell,
-  BookOpen,
-  Blocks,
-  Home,
-  PlusCircle,
-  Search,
-} from "lucide-react"
-import { Link } from "react-router-dom"
+import * as React from 'react';
+import { Bell, BookOpen, Blocks, Home, PlusCircle, Search } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
-import { NavMain } from "./nav-main"
-import { NavUser } from "./nav-user"
-import LogoFull from "./Root/LogoFull"
-import LogoIcon from "./Root/LogoIcon"
+import { NavMain } from './nav-main';
+import { NavUser } from './nav-user';
+import LogoFull from './Root/LogoFull';
+import LogoIcon from './Root/LogoIcon';
 import {
   Sidebar,
   SidebarContent,
@@ -23,43 +16,43 @@ import {
   SidebarMenuItem,
   SidebarRail,
   useSidebar,
-} from "./ui/sidebar"
+} from './ui/sidebar';
 
 const navItems = [
   {
-    title: "Home",
-    url: "/catalog",
+    title: 'Home',
+    url: '/catalog',
     icon: Home,
   },
   {
-    title: "APIs",
-    url: "/api-docs",
+    title: 'APIs',
+    url: '/api-docs',
     icon: Blocks,
   },
   {
-    title: "Docs",
-    url: "/docs",
+    title: 'Docs',
+    url: '/docs',
     icon: BookOpen,
   },
   {
-    title: "Create",
-    url: "/create",
+    title: 'Create',
+    url: '/create',
     icon: PlusCircle,
   },
   {
-    title: "Search",
-    url: "/search",
+    title: 'Search',
+    url: '/search',
     icon: Search,
   },
   {
-    title: "Notifications",
-    url: "/notifications",
+    title: 'Notifications',
+    url: '/notifications',
     icon: Bell,
   },
-]
+];
 
 function SidebarLogo() {
-  const { open } = useSidebar()
+  const { open } = useSidebar();
 
   return (
     <SidebarMenu>
@@ -79,7 +72,7 @@ function SidebarLogo() {
         </SidebarMenuButton>
       </SidebarMenuItem>
     </SidebarMenu>
-  )
+  );
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -96,5 +89,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }
