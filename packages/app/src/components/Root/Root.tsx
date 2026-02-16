@@ -13,6 +13,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
 } from '../ui/breadcrumb';
+import { useBackstageThemeSync } from '../../hooks/use-backstage-theme-sync';
 
 const routeLabels: Record<string, string> = {
   '/catalog': 'Home',
@@ -39,6 +40,7 @@ function getPageLabel(pathname: string): string {
 export const Root = ({ children }: PropsWithChildren<{}>) => {
   const location = useLocation();
   const pageLabel = getPageLabel(location.pathname);
+  useBackstageThemeSync();
 
   return (
     <SidebarProvider>
