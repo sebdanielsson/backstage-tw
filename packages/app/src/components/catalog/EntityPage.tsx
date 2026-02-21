@@ -1,62 +1,46 @@
-import { Button, Grid } from '@material-ui/core';
 import {
-  EntityApiDefinitionCard,
-  EntityConsumedApisCard,
-  EntityConsumingComponentsCard,
-  EntityHasApisCard,
-  EntityProvidedApisCard,
-  EntityProvidingComponentsCard,
-} from '@backstage/plugin-api-docs';
-import {
-  EntityAboutCard,
-  EntityDependsOnComponentsCard,
-  EntityDependsOnResourcesCard,
-  EntityHasComponentsCard,
-  EntityHasResourcesCard,
-  EntityHasSubcomponentsCard,
-  EntityHasSystemsCard,
-  EntityLayout,
-  EntityLinksCard,
   EntitySwitch,
-  EntityOrphanWarning,
-  EntityProcessingErrorsPanel,
   isComponentType,
   isKind,
   hasCatalogProcessingErrors,
   isOrphan,
   hasRelationWarnings,
-  EntityRelationWarning,
 } from '@backstage/plugin-catalog';
-import {
-  EntityUserProfileCard,
-  EntityGroupProfileCard,
-  EntityMembersListCard,
-  EntityOwnershipCard,
-} from '@backstage/plugin-org';
-import { EntityTechdocsContent } from '@backstage/plugin-techdocs';
-import { EmptyState } from '@backstage/core-components';
-import {
-  Direction,
-  EntityCatalogGraphCard,
-} from '@backstage/plugin-catalog-graph';
+import { CustomEntityLayout as EntityLayout } from './CustomEntityLayout';
 import {
   RELATION_API_CONSUMED_BY,
   RELATION_API_PROVIDED_BY,
   RELATION_CONSUMES_API,
-  RELATION_DEPENDENCY_OF,
   RELATION_DEPENDS_ON,
   RELATION_HAS_PART,
-  RELATION_PART_OF,
   RELATION_PROVIDES_API,
 } from '@backstage/catalog-model';
-
+import { EntityTechdocsContent } from '@backstage/plugin-techdocs';
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
-
 import {
   EntityKubernetesContent,
   isKubernetesAvailable,
 } from '@backstage/plugin-kubernetes';
+
+import {
+  AboutCard,
+  LinksCard,
+  RelationsCard,
+  ApiDefinitionCard,
+  EmptyState,
+  UserProfileCard,
+  GroupProfileCard,
+  MembersListCard,
+  OwnershipCard,
+  OrphanWarning,
+  ProcessingErrorsPanel,
+  RelationWarning,
+} from './entity-cards';
+
+/* ------------------------------------------------------------------ */
+/*  Shared content blocks                                              */
+/* ------------------------------------------------------------------ */
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -67,81 +51,75 @@ const techdocsContent = (
 );
 
 const cicdContent = (
-  // This is an example of how you can implement your company's logic in entity page.
-  // You can for example enforce that all components of type 'service' should use GitHubActions
-  <EntitySwitch>
-    {/*
-      Here you can add support for different CI/CD services, for example
-      using @backstage-community/plugin-github-actions as follows:
-      <EntitySwitch.Case if={isGithubActionsAvailable}>
-        <EntityGithubActionsContent />
-      </EntitySwitch.Case>
-     */}
-    <EntitySwitch.Case>
-      <EmptyState
-        title="No CI/CD available for this entity"
-        missing="info"
-        description="You need to add an annotation to your component if you want to enable CI/CD for it. You can read more about annotations in Backstage by clicking the button below."
-        action={
-          <Button
-            variant="contained"
-            color="primary"
-            href="https://backstage.io/docs/features/software-catalog/well-known-annotations"
-          >
-            Read more
-          </Button>
-        }
-      />
-    </EntitySwitch.Case>
-  </EntitySwitch>
+  <EmptyState
+    title="No CI/CD available for this entity"
+    description="You need to add an annotation to your component if you want to enable CI/CD for it. You can read more about annotations in Backstage by clicking the button below."
+    action={
+      <a
+        href="https://backstage.io/docs/features/software-catalog/well-known-annotations"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm hover:opacity-90 transition-opacity"
+      >
+        Read more
+      </a>
+    }
+  />
 );
 
 const entityWarningContent = (
   <>
     <EntitySwitch>
       <EntitySwitch.Case if={isOrphan}>
-        <Grid item xs={12}>
-          <EntityOrphanWarning />
-        </Grid>
+        <div className="col-span-12">
+          <OrphanWarning />
+        </div>
       </EntitySwitch.Case>
     </EntitySwitch>
 
     <EntitySwitch>
       <EntitySwitch.Case if={hasRelationWarnings}>
-        <Grid item xs={12}>
-          <EntityRelationWarning />
-        </Grid>
+        <div className="col-span-12">
+          <RelationWarning />
+        </div>
       </EntitySwitch.Case>
     </EntitySwitch>
 
     <EntitySwitch>
       <EntitySwitch.Case if={hasCatalogProcessingErrors}>
-        <Grid item xs={12}>
-          <EntityProcessingErrorsPanel />
-        </Grid>
+        <div className="col-span-12">
+          <ProcessingErrorsPanel />
+        </div>
       </EntitySwitch.Case>
     </EntitySwitch>
   </>
 );
 
-const overviewContent = (
-  <Grid container spacing={3} alignItems="stretch">
-    {entityWarningContent}
-    <Grid item md={6}>
-      <EntityAboutCard variant="gridItem" />
-    </Grid>
-    <Grid item md={6} xs={12}>
-      <EntityCatalogGraphCard variant="gridItem" height={400} />
-    </Grid>
+/* ------------------------------------------------------------------ */
+/*  Overview content                                                   */
+/* ------------------------------------------------------------------ */
 
-    <Grid item md={4} xs={12}>
-      <EntityLinksCard />
-    </Grid>
-    <Grid item md={8} xs={12}>
-      <EntityHasSubcomponentsCard variant="gridItem" />
-    </Grid>
-  </Grid>
+const overviewContent = (
+  <div className="grid grid-cols-12 gap-4">
+    {entityWarningContent}
+    <div className="col-span-12 md:col-span-6">
+      <AboutCard />
+    </div>
+    <div className="col-span-12 md:col-span-6">
+      <RelationsCard
+        title="Relations"
+        emptyMessage="No relations"
+      />
+    </div>
+    <div className="col-span-12">
+      <LinksCard />
+    </div>
+  </div>
 );
+
+/* ------------------------------------------------------------------ */
+/*  Service entity page                                                */
+/* ------------------------------------------------------------------ */
 
 const serviceEntityPage = (
   <EntityLayout>
@@ -162,25 +140,43 @@ const serviceEntityPage = (
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/api" title="API">
-      <Grid container spacing={3} alignItems="stretch">
-        <Grid item md={6}>
-          <EntityProvidedApisCard />
-        </Grid>
-        <Grid item md={6}>
-          <EntityConsumedApisCard />
-        </Grid>
-      </Grid>
+      <div className="grid grid-cols-12 gap-4">
+        <div className="col-span-12 md:col-span-6">
+          <RelationsCard
+            title="Provided APIs"
+            relationType={RELATION_PROVIDES_API}
+            emptyMessage="No provided APIs"
+          />
+        </div>
+        <div className="col-span-12 md:col-span-6">
+          <RelationsCard
+            title="Consumed APIs"
+            relationType={RELATION_CONSUMES_API}
+            emptyMessage="No consumed APIs"
+          />
+        </div>
+      </div>
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/dependencies" title="Dependencies">
-      <Grid container spacing={3} alignItems="stretch">
-        <Grid item md={6}>
-          <EntityDependsOnComponentsCard variant="gridItem" />
-        </Grid>
-        <Grid item md={6}>
-          <EntityDependsOnResourcesCard variant="gridItem" />
-        </Grid>
-      </Grid>
+      <div className="grid grid-cols-12 gap-4">
+        <div className="col-span-12 md:col-span-6">
+          <RelationsCard
+            title="Depends on components"
+            relationType={RELATION_DEPENDS_ON}
+            kind="component"
+            emptyMessage="No component dependencies"
+          />
+        </div>
+        <div className="col-span-12 md:col-span-6">
+          <RelationsCard
+            title="Depends on resources"
+            relationType={RELATION_DEPENDS_ON}
+            kind="resource"
+            emptyMessage="No resource dependencies"
+          />
+        </div>
+      </div>
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/docs" title="Docs">
@@ -188,6 +184,10 @@ const serviceEntityPage = (
     </EntityLayout.Route>
   </EntityLayout>
 );
+
+/* ------------------------------------------------------------------ */
+/*  Website entity page                                                */
+/* ------------------------------------------------------------------ */
 
 const websiteEntityPage = (
   <EntityLayout>
@@ -208,14 +208,24 @@ const websiteEntityPage = (
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/dependencies" title="Dependencies">
-      <Grid container spacing={3} alignItems="stretch">
-        <Grid item md={6}>
-          <EntityDependsOnComponentsCard variant="gridItem" />
-        </Grid>
-        <Grid item md={6}>
-          <EntityDependsOnResourcesCard variant="gridItem" />
-        </Grid>
-      </Grid>
+      <div className="grid grid-cols-12 gap-4">
+        <div className="col-span-12 md:col-span-6">
+          <RelationsCard
+            title="Depends on components"
+            relationType={RELATION_DEPENDS_ON}
+            kind="component"
+            emptyMessage="No component dependencies"
+          />
+        </div>
+        <div className="col-span-12 md:col-span-6">
+          <RelationsCard
+            title="Depends on resources"
+            relationType={RELATION_DEPENDS_ON}
+            kind="resource"
+            emptyMessage="No resource dependencies"
+          />
+        </div>
+      </div>
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/docs" title="Docs">
@@ -224,12 +234,9 @@ const websiteEntityPage = (
   </EntityLayout>
 );
 
-/**
- * NOTE: This page is designed to work on small screens such as mobile devices.
- * This is based on Material UI Grid. If breakpoints are used, each grid item must set the `xs` prop to a column size or to `true`,
- * since this does not default. If no breakpoints are used, the items will equitably share the available space.
- * https://material-ui.com/components/grid/#basic-grid.
- */
+/* ------------------------------------------------------------------ */
+/*  Default entity page                                                */
+/* ------------------------------------------------------------------ */
 
 const defaultEntityPage = (
   <EntityLayout>
@@ -242,6 +249,10 @@ const defaultEntityPage = (
     </EntityLayout.Route>
   </EntityLayout>
 );
+
+/* ------------------------------------------------------------------ */
+/*  Component page (switches by type)                                  */
+/* ------------------------------------------------------------------ */
 
 const componentPage = (
   <EntitySwitch>
@@ -257,144 +268,165 @@ const componentPage = (
   </EntitySwitch>
 );
 
+/* ------------------------------------------------------------------ */
+/*  API entity page                                                    */
+/* ------------------------------------------------------------------ */
+
 const apiPage = (
   <EntityLayout>
     <EntityLayout.Route path="/" title="Overview">
-      <Grid container spacing={3}>
+      <div className="grid grid-cols-12 gap-4">
         {entityWarningContent}
-        <Grid item md={6}>
-          <EntityAboutCard />
-        </Grid>
-        <Grid item md={6} xs={12}>
-          <EntityCatalogGraphCard variant="gridItem" height={400} />
-        </Grid>
-        <Grid item md={4} xs={12}>
-          <EntityLinksCard />
-        </Grid>
-        <Grid container item md={12}>
-          <Grid item md={6}>
-            <EntityProvidingComponentsCard />
-          </Grid>
-          <Grid item md={6}>
-            <EntityConsumingComponentsCard />
-          </Grid>
-        </Grid>
-      </Grid>
+        <div className="col-span-12 md:col-span-6">
+          <AboutCard />
+        </div>
+        <div className="col-span-12 md:col-span-6">
+          <LinksCard />
+        </div>
+        <div className="col-span-12 md:col-span-6">
+          <RelationsCard
+            title="Providing components"
+            relationType={RELATION_API_PROVIDED_BY}
+            emptyMessage="No providing components"
+          />
+        </div>
+        <div className="col-span-12 md:col-span-6">
+          <RelationsCard
+            title="Consuming components"
+            relationType={RELATION_API_CONSUMED_BY}
+            emptyMessage="No consuming components"
+          />
+        </div>
+      </div>
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/definition" title="Definition">
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <EntityApiDefinitionCard />
-        </Grid>
-      </Grid>
+      <ApiDefinitionCard />
     </EntityLayout.Route>
   </EntityLayout>
 );
+
+/* ------------------------------------------------------------------ */
+/*  User page                                                          */
+/* ------------------------------------------------------------------ */
 
 const userPage = (
   <EntityLayout>
     <EntityLayout.Route path="/" title="Overview">
-      <Grid container spacing={3}>
+      <div className="grid grid-cols-12 gap-4">
         {entityWarningContent}
-        <Grid item xs={12} md={6}>
-          <EntityUserProfileCard variant="gridItem" />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <EntityOwnershipCard variant="gridItem" />
-        </Grid>
-      </Grid>
+        <div className="col-span-12 md:col-span-6">
+          <UserProfileCard />
+        </div>
+        <div className="col-span-12 md:col-span-6">
+          <OwnershipCard />
+        </div>
+      </div>
     </EntityLayout.Route>
   </EntityLayout>
 );
+
+/* ------------------------------------------------------------------ */
+/*  Group page                                                         */
+/* ------------------------------------------------------------------ */
 
 const groupPage = (
   <EntityLayout>
     <EntityLayout.Route path="/" title="Overview">
-      <Grid container spacing={3}>
+      <div className="grid grid-cols-12 gap-4">
         {entityWarningContent}
-        <Grid item xs={12} md={6}>
-          <EntityGroupProfileCard variant="gridItem" />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <EntityOwnershipCard variant="gridItem" />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <EntityMembersListCard />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <EntityLinksCard />
-        </Grid>
-      </Grid>
+        <div className="col-span-12 md:col-span-6">
+          <GroupProfileCard />
+        </div>
+        <div className="col-span-12 md:col-span-6">
+          <OwnershipCard />
+        </div>
+        <div className="col-span-12 md:col-span-6">
+          <MembersListCard />
+        </div>
+        <div className="col-span-12 md:col-span-6">
+          <LinksCard />
+        </div>
+      </div>
     </EntityLayout.Route>
   </EntityLayout>
 );
+
+/* ------------------------------------------------------------------ */
+/*  System page                                                        */
+/* ------------------------------------------------------------------ */
 
 const systemPage = (
   <EntityLayout>
     <EntityLayout.Route path="/" title="Overview">
-      <Grid container spacing={3} alignItems="stretch">
+      <div className="grid grid-cols-12 gap-4">
         {entityWarningContent}
-        <Grid item md={6}>
-          <EntityAboutCard variant="gridItem" />
-        </Grid>
-        <Grid item md={6} xs={12}>
-          <EntityCatalogGraphCard variant="gridItem" height={400} />
-        </Grid>
-        <Grid item md={4} xs={12}>
-          <EntityLinksCard />
-        </Grid>
-        <Grid item md={8}>
-          <EntityHasComponentsCard variant="gridItem" />
-        </Grid>
-        <Grid item md={6}>
-          <EntityHasApisCard variant="gridItem" />
-        </Grid>
-        <Grid item md={6}>
-          <EntityHasResourcesCard variant="gridItem" />
-        </Grid>
-      </Grid>
-    </EntityLayout.Route>
-    <EntityLayout.Route path="/diagram" title="Diagram">
-      <EntityCatalogGraphCard
-        variant="gridItem"
-        direction={Direction.TOP_BOTTOM}
-        title="System Diagram"
-        height={700}
-        relations={[
-          RELATION_PART_OF,
-          RELATION_HAS_PART,
-          RELATION_API_CONSUMED_BY,
-          RELATION_API_PROVIDED_BY,
-          RELATION_CONSUMES_API,
-          RELATION_PROVIDES_API,
-          RELATION_DEPENDENCY_OF,
-          RELATION_DEPENDS_ON,
-        ]}
-        unidirectional={false}
-      />
+        <div className="col-span-12 md:col-span-6">
+          <AboutCard />
+        </div>
+        <div className="col-span-12 md:col-span-6">
+          <LinksCard />
+        </div>
+        <div className="col-span-12 md:col-span-8">
+          <RelationsCard
+            title="Components"
+            relationType={RELATION_HAS_PART}
+            kind="component"
+            emptyMessage="No components"
+          />
+        </div>
+        <div className="col-span-12 md:col-span-6">
+          <RelationsCard
+            title="APIs"
+            relationType={RELATION_HAS_PART}
+            kind="api"
+            emptyMessage="No APIs"
+          />
+        </div>
+        <div className="col-span-12 md:col-span-6">
+          <RelationsCard
+            title="Resources"
+            relationType={RELATION_HAS_PART}
+            kind="resource"
+            emptyMessage="No resources"
+          />
+        </div>
+      </div>
     </EntityLayout.Route>
   </EntityLayout>
 );
 
+/* ------------------------------------------------------------------ */
+/*  Domain page                                                        */
+/* ------------------------------------------------------------------ */
+
 const domainPage = (
   <EntityLayout>
     <EntityLayout.Route path="/" title="Overview">
-      <Grid container spacing={3} alignItems="stretch">
+      <div className="grid grid-cols-12 gap-4">
         {entityWarningContent}
-        <Grid item md={6}>
-          <EntityAboutCard variant="gridItem" />
-        </Grid>
-        <Grid item md={6} xs={12}>
-          <EntityCatalogGraphCard variant="gridItem" height={400} />
-        </Grid>
-        <Grid item md={6}>
-          <EntityHasSystemsCard variant="gridItem" />
-        </Grid>
-      </Grid>
+        <div className="col-span-12 md:col-span-6">
+          <AboutCard />
+        </div>
+        <div className="col-span-12 md:col-span-6">
+          <LinksCard />
+        </div>
+        <div className="col-span-12 md:col-span-6">
+          <RelationsCard
+            title="Systems"
+            relationType={RELATION_HAS_PART}
+            kind="system"
+            emptyMessage="No systems"
+          />
+        </div>
+      </div>
     </EntityLayout.Route>
   </EntityLayout>
 );
+
+/* ------------------------------------------------------------------ */
+/*  Root entity page switch                                            */
+/* ------------------------------------------------------------------ */
 
 export const entityPage = (
   <EntitySwitch>

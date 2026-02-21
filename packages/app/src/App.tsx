@@ -1,46 +1,83 @@
+import React from 'react';
 import { Navigate, Route } from 'react-router-dom';
-import { apiDocsPlugin, ApiExplorerPage } from '@backstage/plugin-api-docs';
+import {
+  apiDocsPlugin,
+  ApiExplorerPage as PluginApiExplorerPage,
+} from '@backstage/plugin-api-docs';
 import {
   CatalogEntityPage,
-  CatalogIndexPage,
+  CatalogIndexPage as PluginCatalogIndexPage,
   catalogPlugin,
 } from '@backstage/plugin-catalog';
 import {
   CatalogImportPage,
   catalogImportPlugin,
 } from '@backstage/plugin-catalog-import';
-import { ScaffolderPage, scaffolderPlugin } from '@backstage/plugin-scaffolder';
+import { scaffolderPlugin, ScaffolderPage } from '@backstage/plugin-scaffolder';
 import { orgPlugin } from '@backstage/plugin-org';
 import { SearchPage } from '@backstage/plugin-search';
 import {
-  TechDocsIndexPage,
   techdocsPlugin,
+  TechDocsIndexPage as PluginTechDocsIndexPage,
   TechDocsReaderPage,
 } from '@backstage/plugin-techdocs';
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
+import {
+  NotificationsPage as PluginNotificationsPage,
+} from '@backstage/plugin-notifications';
 import { apis } from './apis';
 import { entityPage } from './components/catalog/EntityPage';
 import { searchPage } from './components/search/SearchPage';
 import { Root } from './components/Root';
 import { SettingsPage } from './components/settings/SettingsPage';
+import { CatalogIndexPage } from './components/catalog/CatalogIndexPage';
+import { ApiExplorerPage } from './components/catalog/ApiExplorerPage';
+import { NotificationsPage } from './components/notifications/NotificationsPage';
+import { TechDocsIndexPage } from './components/techdocs/TechDocsIndexPage';
 
 import {
   AlertDisplay,
   OAuthRequestDialog,
   SignInPage,
 } from '@backstage/core-components';
+import {
+  attachComponentData,
+  getComponentData,
+} from '@backstage/core-plugin-api';
 import { createApp } from '@backstage/app-defaults';
 import { AppRouter, FlatRoutes } from '@backstage/core-app-api';
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
-import { NotificationsPage } from '@backstage/plugin-notifications';
 import { SignalsDisplay } from '@backstage/plugin-signals';
 import { UnifiedThemeProvider } from '@backstage/theme';
 import LightModeIcon from '@material-ui/icons/WbSunny';
 import DarkModeIcon from '@material-ui/icons/Brightness2';
 import { shadcnLightTheme, shadcnDarkTheme } from './themes';
+
+/**
+ * Copy the 'core.mountPoint' route ref from original Backstage plugin pages
+ * to our custom page components so that FlatRoutes can bind route refs
+ * correctly (required for EntityLayout, breadcrumbs, cross-plugin links, etc.)
+ */
+function copyMountPoint(
+  from: React.ComponentType<any>,
+  to: React.ComponentType<any>,
+) {
+  const mountPoint = getComponentData(
+    React.createElement(from),
+    'core.mountPoint',
+  );
+  if (mountPoint) {
+    attachComponentData(to, 'core.mountPoint', mountPoint);
+  }
+}
+
+copyMountPoint(PluginCatalogIndexPage, CatalogIndexPage);
+copyMountPoint(PluginApiExplorerPage, ApiExplorerPage);
+copyMountPoint(PluginNotificationsPage, NotificationsPage);
+copyMountPoint(PluginTechDocsIndexPage, TechDocsIndexPage);
 
 const app = createApp({
   apis,

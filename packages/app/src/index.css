@@ -122,126 +122,262 @@
   }
 }
 
-/*
- * Hide Backstage's built-in page headers (rendered by plugin pages like
- * CatalogIndexPage, SearchPage, etc.) since we have our own shadcn header bar.
- * Target only Backstage headers, not our own (which has data-shadcn-header).
- */
+/* ------------------------------------------------------------------ */
+/*  Backstage plugin component overrides                               */
+/*  These style MUI-based components rendered by Backstage plugins     */
+/*  (entity cards, scaffolder wizard, techdocs reader, etc.)           */
+/* ------------------------------------------------------------------ */
+
+/* Hide Backstage's own page headers (we render our own in Root.tsx) */
 header:not([data-shadcn-header]) {
   display: none !important;
 }
 
-/* ============================================================
- * Backstage component overrides
- * These target Backstage-specific styled components that can't
- * be customized via MUI theme component overrides.
- * ============================================================ */
-
-/* --- Page content area --- */
-[class*='BackstageContent-root'] {
-  padding: 0 !important;
-  background-color: transparent !important;
-}
-
-/* --- Page wrapper --- */
+/* --- Backstage Page / Content wrappers --- */
+/* Prevent nested scroll contexts from Backstage plugin pages */
 [class*='BackstagePage-root'] {
-  background-color: transparent !important;
+  background: transparent !important;
+  min-height: auto !important;
+  overflow: visible !important;
+}
+[class*='BackstageContent-root'] {
+  padding-top: 0 !important;
+  background: transparent !important;
+  overflow: visible !important;
 }
 
-/* --- Backstage HeaderTabs (Settings page tab bar, etc.) --- */
-[class*='BackstageHeaderTabs-tabsWrapper'] {
-  background-color: var(--muted) !important;
-  border-radius: var(--radius) !important;
-  padding: 3px !important;
-  display: inline-flex !important;
-  width: auto !important;
-  border-bottom: none !important;
+/* --- HeaderTabs fallback (only applies if MUI HeaderTabs still render) --- */
+[class*='BackstageHeaderTabs-root'] {
+  background: transparent !important;
+  box-shadow: none !important;
+  border-bottom: 1px solid var(--border);
+}
+[class*='BackstageHeaderTabs-root'] button {
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: none;
+  border-radius: 0;
+  min-height: 36px;
+  padding: 6px 16px;
+  color: var(--muted-foreground);
+  border-bottom: 2px solid transparent;
+}
+[class*='BackstageHeaderTabs-root'] button[aria-selected='true'],
+[class*='BackstageHeaderTabs-root'] button.Mui-selected {
+  color: var(--foreground);
+  border-bottom-color: var(--foreground);
+}
+[class*='BackstageHeaderTabs-root'] button:hover {
+  color: var(--foreground);
+  background: var(--accent);
 }
 
-[class*='BackstageHeaderTabs-tabsWrapper'] .MuiTab-root {
-  min-height: 28px !important;
-  border-radius: calc(var(--radius) - 2px) !important;
-  padding: 4px 12px !important;
-  font-size: 0.8125rem !important;
-  font-weight: 500 !important;
-  text-transform: none !important;
-  color: var(--muted-foreground) !important;
-  transition: all 0.15s ease !important;
-}
-
-[class*='BackstageHeaderTabs-tabsWrapper'] .MuiTab-root:hover {
-  color: var(--foreground) !important;
-}
-
-[class*='BackstageHeaderTabs-tabsWrapper'] .MuiTab-root.Mui-selected {
-  color: var(--foreground) !important;
-  background-color: var(--background) !important;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
-}
-
-[class*='BackstageHeaderTabs-tabsWrapper'] .MuiTabs-indicator {
-  display: none !important;
-}
-
-/* --- InfoCard (used across Settings, Catalog, etc.) --- */
-[class*='BackstageInfoCard'] {
-  background-color: var(--card) !important;
+/* --- InfoCard (entity cards like EntityAboutCard) --- */
+[class*='BackstageInfoCard-root'] {
+  background: var(--card) !important;
   color: var(--card-foreground) !important;
   border: 1px solid var(--border) !important;
   border-radius: var(--radius) !important;
   box-shadow: none !important;
 }
-
-[class*='BackstageInfoCard'] [class*='MuiCardHeader-title'] {
+[class*='BackstageInfoCard-header'] {
+  border-bottom: 1px solid var(--border) !important;
+  padding: 12px 16px !important;
+}
+[class*='BackstageInfoCard-header'] [class*='MuiCardHeader-title'] {
   font-size: 0.875rem !important;
   font-weight: 600 !important;
+  color: var(--foreground) !important;
 }
-
-/* --- ToggleButtonGroup (theme switcher light/dark/auto) --- */
-.MuiToggleButtonGroup-root {
-  border-radius: var(--radius) !important;
-  border: 1px solid var(--border) !important;
-  overflow: hidden;
-}
-
-.MuiToggleButtonGroup-root .MuiToggleButton-root {
-  border: none !important;
-  border-radius: 0 !important;
-  text-transform: none !important;
-  font-weight: 500 !important;
+[class*='BackstageInfoCard-header'] [class*='MuiCardHeader-subheader'] {
   font-size: 0.8125rem !important;
-  padding: 4px 12px !important;
   color: var(--muted-foreground) !important;
 }
 
-.MuiToggleButtonGroup-root .MuiToggleButton-root:not(:last-child) {
-  border-right: 1px solid var(--border) !important;
+/* --- ItemCard (scaffolder template cards, etc.) --- */
+[class*='BackstageItemCardHeader'] {
+  background: var(--muted) !important;
+  color: var(--foreground) !important;
+}
+[class*='BackstageItemCardHeader'] [class*='title'] {
+  color: var(--foreground) !important;
+}
+[class*='BackstageItemCardHeader'] [class*='subheader'] {
+  color: var(--muted-foreground) !important;
 }
 
-.MuiToggleButtonGroup-root .MuiToggleButton-root.Mui-selected {
-  background-color: var(--primary) !important;
-  color: var(--primary-foreground) !important;
+/* --- Backstage Table (material-table) --- */
+[class*='BackstageTable-root'] {
+  background: var(--card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  box-shadow: none !important;
+  overflow: hidden;
+}
+[class*='BackstageTableHeader-header'] {
+  background: var(--muted) !important;
+  color: var(--muted-foreground) !important;
+  font-weight: 600 !important;
+  font-size: 0.8125rem !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+[class*='BackstageTableToolbar'] {
+  background: transparent !important;
+  padding: 8px 16px !important;
+}
+[class*='BackstageTableFilters'] {
+  background: transparent !important;
 }
 
-.MuiToggleButtonGroup-root .MuiToggleButton-root.Mui-selected:hover {
-  background-color: var(--primary) !important;
-  opacity: 0.9;
+/* material-table internal overrides */
+.MuiTable-root {
+  background: transparent !important;
+}
+.MTableToolbar-root {
+  background: transparent !important;
+}
+.MTableHeader-header {
+  background: var(--muted) !important;
+  color: var(--muted-foreground) !important;
+  font-weight: 600 !important;
+  font-size: 0.8125rem !important;
 }
 
-.MuiToggleButtonGroup-root .MuiToggleButton-root:hover:not(.Mui-selected) {
-  background-color: var(--accent) !important;
+/* --- EmptyState --- */
+[class*='BackstageEmptyState-root'] {
+  background: transparent !important;
 }
 
-/* --- Backstage Select component --- */
-[class*='BackstageSelect'] .MuiInput-root {
+/* --- Status indicators --- */
+[class*='BackstageStatusOK'] {
+  color: var(--chart-2) !important;
+}
+[class*='BackstageStatusWarning'] {
+  color: var(--chart-4) !important;
+}
+[class*='BackstageStatusError'] {
+  color: var(--destructive) !important;
+}
+
+/* --- TechDocs reader --- */
+[class*='TechDocsReaderPage'] {
+  background: var(--background) !important;
+}
+[class*='techdocs-reader'] {
+  background: var(--background) !important;
+}
+/* TechDocs content styling */
+[class*='BackstageTechDocs'] article,
+.md-content {
+  color: var(--foreground);
+  font-family: inherit;
+}
+.md-content h1,
+.md-content h2,
+.md-content h3,
+.md-content h4 {
+  color: var(--foreground);
+}
+.md-content a {
+  color: var(--primary);
+}
+.md-content code {
+  background: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) - 4px);
+  padding: 2px 6px;
+  font-size: 0.8125em;
+}
+.md-content pre {
+  background: var(--muted) !important;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.md-content pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+.md-content table {
+  border-collapse: collapse;
+}
+.md-content table th {
+  background: var(--muted);
+  color: var(--muted-foreground);
+  font-weight: 600;
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.md-content table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+}
+/* TechDocs sidebar navigation */
+[class*='TechDocs'] nav,
+.md-sidebar {
+  background: var(--card);
+  color: var(--foreground);
+}
+.md-nav__link {
+  color: var(--muted-foreground) !important;
+}
+.md-nav__link:hover,
+.md-nav__link--active {
+  color: var(--foreground) !important;
+}
+
+/* --- Scaffolder stepper --- */
+[class*='BackstageTemplateStepper'] {
+  background: transparent !important;
+}
+.MuiStepper-root {
+  background: transparent !important;
+  padding: 16px 0 !important;
+}
+.MuiStepLabel-label {
+  color: var(--muted-foreground) !important;
+  font-weight: 500 !important;
   font-size: 0.875rem !important;
 }
-
-[class*='BackstageSelect'] .MuiInput-underline:before {
-  border-bottom-color: var(--border) !important;
+.MuiStepLabel-label.Mui-active {
+  color: var(--foreground) !important;
+  font-weight: 600 !important;
+}
+.MuiStepLabel-label.Mui-completed {
+  color: var(--foreground) !important;
+}
+.MuiStepIcon-root {
+  color: var(--muted) !important;
+}
+.MuiStepIcon-root.Mui-active {
+  color: var(--primary) !important;
+}
+.MuiStepIcon-root.Mui-completed {
+  color: var(--primary) !important;
+}
+.MuiStepIcon-text {
+  fill: var(--primary-foreground) !important;
+}
+.MuiStepConnector-line {
+  border-color: var(--border) !important;
 }
 
-/* --- Global: remove MUI paper elevation shadows --- */
+/* --- Scaffolder form fields --- */
+[class*='scaffolder'] .MuiFormLabel-root,
+[class*='Scaffolder'] .MuiFormLabel-root {
+  color: var(--foreground) !important;
+  font-weight: 500 !important;
+  font-size: 0.875rem !important;
+}
+[class*='scaffolder'] .MuiFormHelperText-root,
+[class*='Scaffolder'] .MuiFormHelperText-root {
+  color: var(--muted-foreground) !important;
+  font-size: 0.75rem !important;
+}
+
+/* --- MUI Paper elevation removal --- */
 .MuiPaper-elevation1,
 .MuiPaper-elevation2,
 .MuiPaper-elevation3,
@@ -249,7 +385,8 @@ header:not([data-shadcn-header]) {
   box-shadow: none !important;
 }
 
-/* --- Backstage SupportButton --- */
-[class*='BackstageSupportButton'] {
-  border-radius: calc(var(--radius) - 2px) !important;
+/* Ensure MUI Grid doesn't break inside our Tailwind grid */
+.MuiGrid-container {
+  margin: 0 !important;
+  width: 100% !important;
 }
