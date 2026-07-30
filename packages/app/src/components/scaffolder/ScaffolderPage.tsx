@@ -287,12 +287,16 @@ export function ScaffolderPage() {
 
                     {/* Action */}
                     <div className="pt-1">
-                      <Button asChild size="sm" className="w-full">
-                        <Link
-                          to={`/create/templates/${template.metadata.namespace ?? 'default'}/${template.metadata.name}`}
-                        >
-                          Choose
-                        </Link>
+                      <Button
+                        render={
+                          <Link
+                            to={`/create/templates/${template.metadata.namespace ?? 'default'}/${template.metadata.name}`}
+                          />
+                        }
+                        size="sm"
+                        className="w-full"
+                      >
+                        Choose
                       </Button>
                     </div>
                   </CardContent>
