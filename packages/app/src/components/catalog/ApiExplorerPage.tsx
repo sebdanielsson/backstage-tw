@@ -59,7 +59,9 @@ function entityHref(entity: Entity): string {
 }
 
 function entityRef(entity: Entity): string {
-  return `${entity.kind}:${entity.metadata.namespace ?? 'default'}/${entity.metadata.name}`.toLowerCase();
+  return `${entity.kind}:${entity.metadata.namespace ?? 'default'}/${
+    entity.metadata.name
+  }`.toLowerCase();
 }
 
 /* ------------------------------------------------------------------ */
@@ -191,9 +193,7 @@ export function ApiExplorerPage() {
           <p className="text-sm text-destructive font-medium">
             Failed to load APIs
           </p>
-          <p className="text-xs text-muted-foreground mt-1">
-            {error.message}
-          </p>
+          <p className="text-xs text-muted-foreground mt-1">{error.message}</p>
         </div>
       )}
 

@@ -175,9 +175,7 @@ export function NotificationsPage() {
   );
 
   const markAllAsRead = useCallback(async () => {
-    const unreadIds = notifications
-      .filter(n => !n.read)
-      .map(n => n.id);
+    const unreadIds = notifications.filter(n => !n.read).map(n => n.id);
     if (unreadIds.length > 0) {
       await notificationsApi.updateNotifications({
         ids: unreadIds,
@@ -264,9 +262,7 @@ export function NotificationsPage() {
           <p className="text-sm text-destructive font-medium">
             Failed to load notifications
           </p>
-          <p className="text-xs text-muted-foreground mt-1">
-            {error.message}
-          </p>
+          <p className="text-xs text-muted-foreground mt-1">{error.message}</p>
         </div>
       )}
 
@@ -274,7 +270,13 @@ export function NotificationsPage() {
         <div className="flex flex-col items-center justify-center py-12">
           <BellOff className="size-10 text-muted-foreground/50 mb-3" />
           <p className="text-sm text-muted-foreground">
-            {{ unread: 'No unread notifications', saved: 'No saved notifications', all: 'No notifications' }[tab]}
+            {
+              {
+                unread: 'No unread notifications',
+                saved: 'No saved notifications',
+                all: 'No notifications',
+              }[tab]
+            }
           </p>
         </div>
       )}

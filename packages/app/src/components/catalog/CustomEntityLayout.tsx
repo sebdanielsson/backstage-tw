@@ -79,8 +79,8 @@ export function CustomEntityLayout({ children }: PropsWithChildren<{}>) {
   const basePath = subPath
     ? pathname.slice(0, pathname.lastIndexOf(subPath))
     : pathname.endsWith('/')
-      ? pathname
-      : `${pathname}/`;
+    ? pathname
+    : `${pathname}/`;
 
   // Determine which tab is currently active
   const matchedRoutes = matchRoutes(routeObjects, `/${subPath}`);
@@ -100,10 +100,7 @@ export function CustomEntityLayout({ children }: PropsWithChildren<{}>) {
 
   return (
     <div className="flex flex-col">
-      <Tabs
-        value={selectedRoute?.path || '/'}
-        onValueChange={handleTabChange}
-      >
+      <Tabs value={selectedRoute?.path || '/'} onValueChange={handleTabChange}>
         <TabsList
           variant="line"
           className="w-full justify-start border-b border-border"

@@ -61,7 +61,9 @@ function entityHref(entity: Entity): string {
 }
 
 function entityRef(entity: Entity): string {
-  return `${entity.kind}:${entity.metadata.namespace ?? 'default'}/${entity.metadata.name}`.toLowerCase();
+  return `${entity.kind}:${entity.metadata.namespace ?? 'default'}/${
+    entity.metadata.name
+  }`.toLowerCase();
 }
 
 /* ------------------------------------------------------------------ */
@@ -94,9 +96,7 @@ export function CatalogIndexPage() {
           filter: { kind },
           limit: PAGE_SIZE,
           offset,
-          ...(searchTerm
-            ? { fullTextFilter: { term: searchTerm } }
-            : {}),
+          ...(searchTerm ? { fullTextFilter: { term: searchTerm } } : {}),
           orderFields: [{ field: 'metadata.name', order: 'asc' as const }],
         });
         if (!cancelled) {
@@ -194,9 +194,7 @@ export function CatalogIndexPage() {
           <p className="text-sm text-destructive font-medium">
             Failed to load entities
           </p>
-          <p className="text-xs text-muted-foreground mt-1">
-            {error.message}
-          </p>
+          <p className="text-xs text-muted-foreground mt-1">{error.message}</p>
         </div>
       )}
 

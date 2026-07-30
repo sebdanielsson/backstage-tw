@@ -55,9 +55,7 @@ export function RelationWarning() {
     <div className="flex items-start gap-3 rounded-lg border border-amber-500/30 bg-amber-500/5 p-4">
       <Info className="h-5 w-5 text-amber-500 mt-0.5 shrink-0" />
       <div>
-        <h4 className="text-sm font-medium text-amber-500">
-          Relation warning
-        </h4>
+        <h4 className="text-sm font-medium text-amber-500">Relation warning</h4>
         <p className="text-sm text-muted-foreground mt-1">
           Some relations of this entity could not be resolved. This may indicate
           missing or misconfigured entities in the catalog.

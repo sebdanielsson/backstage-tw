@@ -1,4 +1,8 @@
-import { Entity, parseEntityRef, stringifyEntityRef } from '@backstage/catalog-model';
+import {
+  Entity,
+  parseEntityRef,
+  stringifyEntityRef,
+} from '@backstage/catalog-model';
 import {
   useEntity,
   useRelatedEntities,
@@ -98,21 +102,23 @@ function useAllRelatedEntities(entity: Entity, kindFilter?: string) {
     let cancelled = false;
     setLoading(true);
     Promise.all(
-      refs.map(ref =>
-        catalogApi.getEntityByRef(ref).catch(() => undefined),
-      ),
-    ).then(results => {
-      if (!cancelled) {
-        setEntities(results.filter((e): e is Entity => e !== undefined));
-        setLoading(false);
-      }
-    }).catch(err => {
-      if (!cancelled) {
-        setError(err instanceof Error ? err : new Error(String(err)));
-        setLoading(false);
-      }
-    });
-    return () => { cancelled = true; };
+      refs.map(ref => catalogApi.getEntityByRef(ref).catch(() => undefined)),
+    )
+      .then(results => {
+        if (!cancelled) {
+          setEntities(results.filter((e): e is Entity => e !== undefined));
+          setLoading(false);
+        }
+      })
+      .catch(err => {
+        if (!cancelled) {
+          setError(err instanceof Error ? err : new Error(String(err)));
+          setLoading(false);
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [refs, catalogApi]);
 
   return { entities, loading, error };
@@ -181,8 +187,7 @@ export function RelationsCard({
                           <a
                             href={entityRoute({
                               kind: e.kind,
-                              namespace:
-                                e.metadata.namespace || 'default',
+                              namespace: e.metadata.namespace || 'default',
                               name: e.metadata.name,
                             })}
                             className="text-primary hover:underline font-medium"

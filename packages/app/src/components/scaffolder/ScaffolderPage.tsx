@@ -46,7 +46,9 @@ function useDebouncedValue<T>(value: T, delay: number): T {
 }
 
 function entityRef(entity: Entity): string {
-  return `${entity.kind}:${entity.metadata.namespace ?? 'default'}/${entity.metadata.name}`.toLowerCase();
+  return `${entity.kind}:${entity.metadata.namespace ?? 'default'}/${
+    entity.metadata.name
+  }`.toLowerCase();
 }
 
 /* ------------------------------------------------------------------ */
@@ -183,9 +185,7 @@ export function ScaffolderPage() {
           <p className="text-sm text-destructive font-medium">
             Failed to load templates
           </p>
-          <p className="text-xs text-muted-foreground mt-1">
-            {error.message}
-          </p>
+          <p className="text-xs text-muted-foreground mt-1">{error.message}</p>
         </div>
       )}
 
@@ -210,9 +210,7 @@ export function ScaffolderPage() {
             {templates.map(template => {
               const ref = entityRef(template);
               const starred = isStarredEntity(ref);
-              const spec = template.spec as
-                | Record<string, unknown>
-                | undefined;
+              const spec = template.spec as Record<string, unknown> | undefined;
               const templateType = (spec?.type as string) ?? '';
 
               return (
@@ -240,8 +238,7 @@ export function ScaffolderPage() {
                     {/* Header */}
                     <div className="space-y-1 pr-8">
                       <h3 className="text-sm font-semibold truncate">
-                        {template.metadata.title ||
-                          template.metadata.name}
+                        {template.metadata.title || template.metadata.name}
                       </h3>
                       {template.metadata.description && (
                         <p className="text-xs text-muted-foreground line-clamp-2">
@@ -271,17 +268,15 @@ export function ScaffolderPage() {
                     {template.metadata.tags &&
                       template.metadata.tags.length > 0 && (
                         <div className="flex gap-1 flex-wrap">
-                          {template.metadata.tags
-                            .slice(0, 4)
-                            .map(tag => (
-                              <Badge
-                                key={tag}
-                                variant="outline"
-                                className="text-[10px]"
-                              >
-                                {tag}
-                              </Badge>
-                            ))}
+                          {template.metadata.tags.slice(0, 4).map(tag => (
+                            <Badge
+                              key={tag}
+                              variant="outline"
+                              className="text-[10px]"
+                            >
+                              {tag}
+                            </Badge>
+                          ))}
                         </div>
                       )}
 
@@ -290,7 +285,9 @@ export function ScaffolderPage() {
                       <Button
                         render={
                           <Link
-                            to={`/create/templates/${template.metadata.namespace ?? 'default'}/${template.metadata.name}`}
+                            to={`/create/templates/${
+                              template.metadata.namespace ?? 'default'
+                            }/${template.metadata.name}`}
                           />
                         }
                         size="sm"
@@ -315,9 +312,7 @@ export function ScaffolderPage() {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() =>
-                    setOffset(Math.max(0, offset - PAGE_SIZE))
-                  }
+                  onClick={() => setOffset(Math.max(0, offset - PAGE_SIZE))}
                   disabled={offset === 0}
                   className="gap-1"
                 >

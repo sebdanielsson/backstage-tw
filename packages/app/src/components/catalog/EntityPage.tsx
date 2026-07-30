@@ -106,10 +106,7 @@ const overviewContent = (
       <AboutCard />
     </div>
     <div className="col-span-12 md:col-span-6">
-      <RelationsCard
-        title="Relations"
-        emptyMessage="No relations"
-      />
+      <RelationsCard title="Relations" emptyMessage="No relations" />
     </div>
     <div className="col-span-12">
       <LinksCard />

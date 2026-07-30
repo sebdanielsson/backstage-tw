@@ -1,10 +1,7 @@
 import { useEntity } from '@backstage/plugin-catalog-react';
 import { useRouteRef } from '@backstage/core-plugin-api';
 import { entityRouteRef } from '@backstage/plugin-catalog-react';
-import {
-  RELATION_OWNED_BY,
-  RELATION_PART_OF,
-} from '@backstage/catalog-model';
+import { RELATION_OWNED_BY, RELATION_PART_OF } from '@backstage/catalog-model';
 import { Card, CardContent, CardHeader, CardTitle } from '../../ui/card';
 import { Badge } from '../../ui/badge';
 import { getEntityRelations } from '@backstage/plugin-catalog-react';
@@ -44,7 +41,11 @@ export function AboutCard() {
           {ownerRelations.map(r => (
             <a
               key={`${r.kind}:${r.namespace}/${r.name}`}
-              href={entityRoute({ kind: r.kind, namespace: r.namespace, name: r.name })}
+              href={entityRoute({
+                kind: r.kind,
+                namespace: r.namespace,
+                name: r.name,
+              })}
               className="text-primary hover:underline"
             >
               {r.name}
@@ -63,7 +64,11 @@ export function AboutCard() {
           {systemRelations.map(r => (
             <a
               key={`${r.kind}:${r.namespace}/${r.name}`}
-              href={entityRoute({ kind: r.kind, namespace: r.namespace, name: r.name })}
+              href={entityRoute({
+                kind: r.kind,
+                namespace: r.namespace,
+                name: r.name,
+              })}
               className="text-primary hover:underline"
             >
               {r.name}
@@ -82,7 +87,11 @@ export function AboutCard() {
           {domainRelations.map(r => (
             <a
               key={`${r.kind}:${r.namespace}/${r.name}`}
-              href={entityRoute({ kind: r.kind, namespace: r.namespace, name: r.name })}
+              href={entityRoute({
+                kind: r.kind,
+                namespace: r.namespace,
+                name: r.name,
+              })}
               className="text-primary hover:underline"
             >
               {r.name}

@@ -2,3 +2,6 @@ dist
 dist-types
 coverage
 .vscode
+.claude/skills/
+.agent/skills/
+**/components/ui/

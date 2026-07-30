@@ -220,8 +220,7 @@ export function MembersListCard() {
           <div className="space-y-2">
             {members.map(member => {
               const profile = (member.spec as any)?.profile;
-              const name =
-                profile?.displayName || member.metadata.name;
+              const name = profile?.displayName || member.metadata.name;
               const email = profile?.email;
               const picture = profile?.picture;
               return (
@@ -235,9 +234,7 @@ export function MembersListCard() {
                   className="flex items-center gap-3 rounded-md px-2 py-1.5 hover:bg-accent transition-colors"
                 >
                   <Avatar className="h-8 w-8">
-                    {picture && (
-                      <AvatarImage src={picture} alt={name} />
-                    )}
+                    {picture && <AvatarImage src={picture} alt={name} />}
                     <AvatarFallback className="text-xs">
                       {name.slice(0, 2).toUpperCase()}
                     </AvatarFallback>
@@ -294,15 +291,12 @@ export function OwnershipCard() {
   }, [catalogApi, entityRef]);
 
   // Group by kind
-  const grouped = owned.reduce(
-    (acc, e) => {
-      const kind = e.kind;
-      if (!acc[kind]) acc[kind] = [];
-      acc[kind].push(e);
-      return acc;
-    },
-    {} as Record<string, Entity[]>,
-  );
+  const grouped = owned.reduce((acc, e) => {
+    const kind = e.kind;
+    if (!acc[kind]) acc[kind] = [];
+    acc[kind].push(e);
+    return acc;
+  }, {} as Record<string, Entity[]>);
 
   return (
     <Card>

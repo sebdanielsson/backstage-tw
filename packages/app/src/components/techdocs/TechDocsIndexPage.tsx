@@ -181,9 +181,7 @@ export function TechDocsIndexPage() {
           <p className="text-sm text-destructive font-medium">
             Failed to load documentation
           </p>
-          <p className="text-xs text-muted-foreground mt-1">
-            {error.message}
-          </p>
+          <p className="text-xs text-muted-foreground mt-1">{error.message}</p>
         </div>
       )}
 
@@ -206,12 +204,12 @@ export function TechDocsIndexPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {entities.map(entity => {
-              const spec = entity.spec as
-                | Record<string, unknown>
-                | undefined;
+              const spec = entity.spec as Record<string, unknown> | undefined;
               return (
                 <Link
-                  key={`${entity.kind}:${entity.metadata.namespace ?? 'default'}/${entity.metadata.name}`}
+                  key={`${entity.kind}:${
+                    entity.metadata.namespace ?? 'default'
+                  }/${entity.metadata.name}`}
                   to={docsHref(entity)}
                   className="group"
                 >
@@ -221,8 +219,7 @@ export function TechDocsIndexPage() {
                         <div className="flex items-center gap-2">
                           <FileText className="size-4 text-muted-foreground shrink-0" />
                           <h3 className="text-sm font-medium group-hover:underline truncate">
-                            {entity.metadata.title ||
-                              entity.metadata.name}
+                            {entity.metadata.title || entity.metadata.name}
                           </h3>
                         </div>
                         <Badge
@@ -241,10 +238,7 @@ export function TechDocsIndexPage() {
 
                       <div className="flex items-center gap-2 flex-wrap">
                         {spec?.type ? (
-                          <Badge
-                            variant="secondary"
-                            className="text-[10px]"
-                          >
+                          <Badge variant="secondary" className="text-[10px]">
                             {String(spec.type)}
                           </Badge>
                         ) : null}
@@ -258,17 +252,15 @@ export function TechDocsIndexPage() {
                       {entity.metadata.tags &&
                         entity.metadata.tags.length > 0 && (
                           <div className="flex gap-1 flex-wrap">
-                            {entity.metadata.tags
-                              .slice(0, 3)
-                              .map(tag => (
-                                <Badge
-                                  key={tag}
-                                  variant="outline"
-                                  className="text-[10px]"
-                                >
-                                  {tag}
-                                </Badge>
-                              ))}
+                            {entity.metadata.tags.slice(0, 3).map(tag => (
+                              <Badge
+                                key={tag}
+                                variant="outline"
+                                className="text-[10px]"
+                              >
+                                {tag}
+                              </Badge>
+                            ))}
                           </div>
                         )}
                     </CardContent>
@@ -288,9 +280,7 @@ export function TechDocsIndexPage() {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() =>
-                    setOffset(Math.max(0, offset - PAGE_SIZE))
-                  }
+                  onClick={() => setOffset(Math.max(0, offset - PAGE_SIZE))}
                   disabled={offset === 0}
                   className="gap-1"
                 >
