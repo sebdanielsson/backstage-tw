@@ -13,11 +13,9 @@ export function NavUser() {
     <SidebarGroup>
       <SidebarMenu>
         <SidebarMenuItem>
-          <SidebarMenuButton asChild tooltip="Settings">
-            <Link to="/settings">
-              <Settings />
-              <span>Settings</span>
-            </Link>
+          <SidebarMenuButton render={<Link to="/settings" />} tooltip="Settings">
+            <Settings />
+            <span>Settings</span>
           </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarMenu>

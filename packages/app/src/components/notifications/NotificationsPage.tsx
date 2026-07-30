@@ -375,16 +375,16 @@ export function NotificationsPage() {
                               variant="ghost"
                               size="sm"
                               className="h-7 gap-1 text-xs"
-                              asChild
+                              render={
+                                <a
+                                  href={notification.payload.link}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                />
+                              }
                             >
-                              <a
-                                href={notification.payload.link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                <ExternalLink className="size-3" />
-                                View
-                              </a>
+                              <ExternalLink className="size-3" />
+                              View
                             </Button>
                           )}
                         </div>

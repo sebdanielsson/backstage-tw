@@ -57,18 +57,16 @@ function SidebarLogo() {
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        <SidebarMenuButton size="lg" asChild>
-          <Link to="/">
-            {open ? (
-              <div className="flex-1 overflow-hidden">
-                <LogoFull />
-              </div>
-            ) : (
-              <div className="flex aspect-square size-8 items-center justify-center">
-                <LogoIcon />
-              </div>
-            )}
-          </Link>
+        <SidebarMenuButton size="lg" render={<Link to="/" />}>
+          {open ? (
+            <div className="flex-1 overflow-hidden">
+              <LogoFull />
+            </div>
+          ) : (
+            <div className="flex aspect-square size-8 items-center justify-center">
+              <LogoIcon />
+            </div>
+          )}
         </SidebarMenuButton>
       </SidebarMenuItem>
     </SidebarMenu>
