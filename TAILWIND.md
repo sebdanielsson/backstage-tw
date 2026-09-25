@@ -130,7 +130,7 @@ You should see "Hello World" in green on the sidebar, confirming that Tailwind C
 ### 1. Install shadcn dependencies
 
 ```sh
-yarn workspace app add class-variance-authority clsx tailwind-merge lucide-react tw-animate-css
+yarn workspace app add class-variance-authority cn lucide-react tw-animate-css
 ```
 
 ### 2. Configure the path aliases in your `packages/app/tsconfig.json` file
@@ -277,12 +277,7 @@ yarn workspace app add class-variance-authority clsx tailwind-merge lucide-react
 ### 4. Add `packages/app/src/lib/utils.ts`
 
 ```ts
-import { clsx, type ClassValue } from 'clsx';
-import { twMerge } from 'tailwind-merge';
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
+export { cn } from 'cn';
 ```
 
 ### 5. Add `packages/app/components.json`
