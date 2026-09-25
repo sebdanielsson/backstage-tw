@@ -15690,7 +15690,7 @@ __metadata:
     "@testing-library/user-event": "npm:^14.0.0"
     "@types/react-dom": "npm:*"
     class-variance-authority: "npm:^0.7.1"
-    clsx: "npm:^2.1.1"
+    cn: "npm:^0.4.0"
     cross-env: "npm:^7.0.0"
     lucide-react: "npm:^0.564.0"
     postcss: "npm:^8.5.23"
@@ -15700,7 +15700,6 @@ __metadata:
     react-router: "npm:^6.3.0"
     react-router-dom: "npm:^6.3.0"
     shadcn: "npm:^4.16.0"
-    tailwind-merge: "npm:^3.4.1"
     tailwindcss: "npm:^4.1.18"
     tw-animate-css: "npm:^1.4.0"
   languageName: unknown
@@ -17480,6 +17479,15 @@ __metadata:
   version: 1.0.0
   resolution: "clz-buffer@npm:1.0.0"
   checksum: 10c0/e8c22ea76cc225e8ab25d1806f2e289408f736841955b3aad522e51feb6dfa033d2403de0ab18ac0eaa17a695db04f61cde69ca69c5ea420ddbb7248ab2621bd
+  languageName: node
+  linkType: hard
+
+"cn@npm:^0.4.0":
+  version: 0.4.0
+  resolution: "cn@npm:0.4.0"
+  bin:
+    cn: bin/cn.mjs
+  checksum: 10c0/e71351cdceb7dbc9b468dcb9cacc304212532fb6bb4545979426f22791f5c4738f37d13825eb68172ae355fbe8afc30386371753d093f1031f17f35a8d10f303
   languageName: node
   linkType: hard
 
@@ -33002,13 +33010,6 @@ __metadata:
   version: 3.6.0
   resolution: "tailwind-merge@npm:3.6.0"
   checksum: 10c0/a728d929f4786bcb48641db4228cc8c006a7545491783a658fb4d24d177dab960620991d17805a047309228de50ab949ca8d9e112c30183da0432367796ae186
-  languageName: node
-  linkType: hard
-
-"tailwind-merge@npm:^3.4.1":
-  version: 3.4.1
-  resolution: "tailwind-merge@npm:3.4.1"
-  checksum: 10c0/0b601ac81673871eb5056dc2e300140d0d7b9998ce5bff2223514126ae1c4275a6537ddc9ae1bc49367b7d1b2d20d609916e5e072a80405947a78b438f06c282
   languageName: node
   linkType: hard
 
